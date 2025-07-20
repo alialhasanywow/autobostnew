@@ -1,0 +1,4 @@
+telegram-bot-manager/
+├── index.html          # الواجهة الرئيسية
+├── app.js              # المنطق البرمجي
+└── styles.css          # التنسيقات
