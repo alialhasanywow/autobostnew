@@ -1,152 +1,0 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مدير بوتات تليجرام</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="styles.css" rel="stylesheet">
-</head>
-<body>
-    <div class="container py-5">
-        <h1 class="text-center mb-5">👨‍💻 مدير بوتات تليجرام</h1>
-        
-        <!-- قسم إضافة الحسابات -->
-        <div class="card mb-4">
-            <div class="card-header bg-primary text-white">
-                <h5 class="card-title mb-0">➕ إضافة حساب جديد</h5>
-            </div>
-            <div class="card-body">
-                <form id="addAccountForm">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label">اسم الجلسة</label>
-                                <input type="text" class="form-control" id="sessionName" required>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">APP ID</label>
-                                <input type="text" class="form-control" id="appId" required>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label">API HASH</label>
-                                <input type="text" class="form-control" id="apiHash" required>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">رقم الهاتف</label>
-                                <input type="text" class="form-control" id="phoneNumber" required>
-                            </div>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-success">حفظ الحساب</button>
-                </form>
-            </div>
-        </div>
-
-        <!-- قائمة الحسابات -->
-        <div class="card mb-4">
-            <div class="card-header bg-primary text-white">
-                <h5 class="card-title mb-0">📋 الحسابات المسجلة</h5>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-striped" id="accountsTable">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>اسم الجلسة</th>
-                                <th>APP ID</th>
-                                <th>الحالة</th>
-                                <th>الإجراءات</th>
-                            </tr>
-                        </thead>
-                        <tbody id="accountsList">
-                            <!-- سيتم ملؤها بواسطة JavaScript -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <!-- إعدادات البوت -->
-        <div class="card mb-4">
-            <div class="card-header bg-primary text-white">
-                <h5 class="card-title mb-0">⚙️ إعدادات البوت</h5>
-            </div>
-            <div class="card-body">
-                <form id="botSettingsForm">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label">تفعيل تتبع الردود</label>
-                                <select class="form-select" id="replyTracking">
-                                    <option value="true">مفعل</option>
-                                    <option value="false">معطل</option>
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">رسالة الرد التلقائي</label>
-                                <textarea class="form-control" id="autoReplyMessage" rows="3"></textarea>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label">تفعيل الرد التلقائي</label>
-                                <select class="form-select" id="autoReply">
-                                    <option value="true">مفعل</option>
-                                    <option value="false">معطل</option>
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">حفظ الوسائط الوقتية</label>
-                                <select class="form-select" id="mediaSaving">
-                                    <option value="true">مفعل</option>
-                                    <option value="false">معطل</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary">حفظ الإعدادات</button>
-                </form>
-            </div>
-        </div>
-
-        <!-- سجل التشغيل -->
-        <div class="card">
-            <div class="card-header bg-primary text-white">
-                <h5 class="card-title mb-0">📜 سجل التشغيل</h5>
-            </div>
-            <div class="card-body">
-                <div class="log-container" id="logsContainer">
-                    جاري تحميل السجلات...
-                </div>
-                <button class="btn btn-secondary mt-3" id="refreshLogs">🔄 تحديث السجل</button>
-                <button class="btn btn-danger mt-3 ms-2" id="clearLogs">🗑️ مسح السجل</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal للتحقق -->
-    <div class="modal fade" id="verificationModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">🔐 التحقق من الحساب</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>تم إرسال كود التحقق إلى رقم الهاتف المسجل. يرجى إدخاله أدناه:</p>
-                    <input type="text" class="form-control mb-3" id="verificationCode" placeholder="كود التحقق">
-                    <button class="btn btn-primary w-100" id="verifyCode">تحقق</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="app.js"></script>
-</body>
-</html>
